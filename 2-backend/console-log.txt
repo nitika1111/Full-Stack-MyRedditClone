@@ -1,0 +1,49 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.1.8.RELEASE)
+
+2021-04-06 20:03:43.930  INFO 15160 --- [           main] c.n.myredditapp.MyredditappApplication   : Starting MyredditappApplication on NitiPC with PID 15160 (F:\fullstackProjects\MyRedditApp\2-backend\myredditapp\target\classes started by niti in F:\fullstackProjects\MyRedditApp\2-backend\myredditapp)
+2021-04-06 20:03:43.935  INFO 15160 --- [           main] c.n.myredditapp.MyredditappApplication   : No active profile set, falling back to default profiles: default
+2021-04-06 20:03:46.435  INFO 15160 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2021-04-06 20:03:46.791  INFO 15160 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 335ms. Found 6 repository interfaces.
+2021-04-06 20:03:47.691  INFO 15160 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$67b7196e] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-04-06 20:03:48.516  INFO 15160 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 7070 (http)
+2021-04-06 20:03:48.567  INFO 15160 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-04-06 20:03:48.570  INFO 15160 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.24]
+2021-04-06 20:03:48.873  INFO 15160 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-04-06 20:03:48.874  INFO 15160 --- [           main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 4820 ms
+2021-04-06 20:03:49.682  INFO 15160 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-04-06 20:03:50.018  INFO 15160 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-04-06 20:03:50.170  INFO 15160 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2021-04-06 20:03:50.320  INFO 15160 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.3.11.Final}
+2021-04-06 20:03:50.324  INFO 15160 --- [           main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2021-04-06 20:03:50.562  INFO 15160 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2021-04-06 20:03:50.868  INFO 15160 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2021-04-06 20:03:52.449  INFO 15160 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+-------> Niti: Inside SecurityConfig->configureGlobal()
+-------> Niti: Inside AuthController constructor
+2021-04-06 20:03:53.863  INFO 15160 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5862dda4, org.springframework.security.web.context.SecurityContextPersistenceFilter@68f75a35, org.springframework.security.web.header.HeaderWriterFilter@1fcfcf37, org.springframework.security.web.authentication.logout.LogoutFilter@31940d6b, com.nitika.myredditapp.security.JwtAuthenticationFilter@7c871ce4, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@45017263, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@747e8659, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@299ddfff, org.springframework.security.web.session.SessionManagementFilter@197180a5, org.springframework.security.web.access.ExceptionTranslationFilter@1fe7fa16, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5da2966]
+2021-04-06 20:03:54.260  INFO 15160 --- [           main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-04-06 20:03:54.358  WARN 15160 --- [           main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-04-06 20:03:55.019  INFO 15160 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 7070 (http) with context path ''
+2021-04-06 20:03:55.026  INFO 15160 --- [           main] c.n.myredditapp.MyredditappApplication   : Started MyredditappApplication in 11.855 seconds (JVM running for 12.639)
+2021-04-06 20:51:52.592  INFO 15160 --- [nio-7070-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-04-06 20:51:52.626  INFO 15160 --- [nio-7070-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-04-06 20:51:53.165  INFO 15160 --- [nio-7070-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 536 ms
+-------> Niti: Inside UserDetailsServiceImpl->loadUserByUsername()
+2021-04-06 20:51:54.335  INFO 15160 --- [nio-7070-exec-1] o.h.h.i.QueryTranslatorFactoryInitiator  : HHH000397: Using ASTQueryTranslatorFactory
+Hibernate: select user0_.id as id1_4_, user0_.creation_date as creation2_4_, user0_.email as email3_4_, user0_.enabled as enabled4_4_, user0_.password as password5_4_, user0_.username as username6_4_ from user user0_ where user0_.username=?
+Hibernate: select posts0_.user_id as user_id8_1_0_, posts0_.id as id1_1_0_, posts0_.id as id1_1_1_, posts0_.creation_date as creation2_1_1_, posts0_.description as descript3_1_1_, posts0_.subreddit_id as subreddi7_1_1_, posts0_.title as title4_1_1_, posts0_.url as url5_1_1_, posts0_.user_id as user_id8_1_1_, posts0_.vote_count as vote_cou6_1_1_ from post posts0_ where posts0_.user_id=?
+-------> Niti: Inside UserDetailsServiceImpl->fetched User:User(id=5, creationDate=2021-03-28T16:08:20Z, email=niti@email.com, enabled=true, username=niti, password=$2a$10$XDAPvrMZgu5/RNsv9hWwR.aFq0IEFztQWCN2vwzDWzeSh6AXrc.qC, posts=[])
+2021-04-06 20:51:55.971  WARN 15160 --- [nio-7070-exec-1] o.a.c.util.SessionIdGeneratorBase        : Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [540] milliseconds.
+-------> Niti: Inside SubredditController: getSubreddit()
+-------> Niti: Inside SubredditService: save()
+Hibernate: select user0_.id as id1_4_, user0_.creation_date as creation2_4_, user0_.email as email3_4_, user0_.enabled as enabled4_4_, user0_.password as password5_4_, user0_.username as username6_4_ from user user0_ where user0_.username=?
+Hibernate: insert into subreddit (creation_date, description, name, user_id) values (?, ?, ?, ?)

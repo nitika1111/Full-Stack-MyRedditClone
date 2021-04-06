@@ -2,6 +2,7 @@ package com.nitika.myredditapp.entity;
 
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -18,12 +19,16 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.nitika.myredditapp.dto.SubredditDto;
+
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "subreddit")
@@ -34,7 +39,6 @@ public class Subreddit {
 	@Column(name = "id")
 	private Long id;
 
-	@NotBlank(message = "Date cannot be blank.")
 	@Column(name = "creation_date")
 	private Instant creationDate;
 	
@@ -48,9 +52,8 @@ public class Subreddit {
 	private String name;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "subreddit")
-	private Set<Post> posts= new HashSet<>();
+	private List<Post> posts;//= new HashSet<>();
 	
-	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;

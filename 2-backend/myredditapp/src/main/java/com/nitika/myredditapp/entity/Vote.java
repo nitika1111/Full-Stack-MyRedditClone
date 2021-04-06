@@ -41,6 +41,11 @@ public class Vote {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "post_id")
 	private Post post;
+
+	public String getVoteType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
 

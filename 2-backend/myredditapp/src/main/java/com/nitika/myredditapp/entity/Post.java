@@ -1,6 +1,7 @@
 package com.nitika.myredditapp.entity;
 
 import java.time.Instant;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -57,6 +59,11 @@ public class Post {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
+
+	public Instant getCreatedDate() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 
 }

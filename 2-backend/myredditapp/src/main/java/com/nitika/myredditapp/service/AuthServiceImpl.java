@@ -1,18 +1,26 @@
 package com.nitika.myredditapp.service;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.nitika.myredditapp.dto.AuthenticationResponse;
+import com.nitika.myredditapp.dto.LoginRequest;
 import com.nitika.myredditapp.dto.RegisterRequest;
 import com.nitika.myredditapp.entity.NotificationEmail;
 import com.nitika.myredditapp.entity.User;
 import com.nitika.myredditapp.entity.VerificationToken;
 import com.nitika.myredditapp.exception.MyRedditException;
+import com.nitika.myredditapp.exception.UsernameNotFoundException;
 import com.nitika.myredditapp.repository.UserRepository;
 import com.nitika.myredditapp.repository.VerificationTokenRepository;
+import com.nitika.myredditapp.security.JwtProvider;
 
 import static java.time.Instant.now;
 
@@ -30,17 +38,25 @@ public class AuthServiceImpl implements AuthService{
 	private VerificationTokenRepository verificationTokenRepository;
 	private MailContentBuilderServiceImpl mailContentBuilder;
 	private MailServiceImpl mailService;
+	private AuthenticationManager authenticationManager;
+	private JwtProvider jwtProvider;
 	
 	@Autowired
-	public AuthServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder,
-			MailContentBuilderServiceImpl mailContentBuilder, MailServiceImpl mailService,
-			VerificationTokenRepository verificationTokenRepository) {
+	public AuthServiceImpl(	UserRepository userRepository, 
+							PasswordEncoder passwordEncoder,
+							MailContentBuilderServiceImpl mailContentBuilder, 
+							MailServiceImpl mailService,
+							VerificationTokenRepository verificationTokenRepository,
+							AuthenticationManager authenticationManager,
+							JwtProvider jwtProvider) {
 		
 		this.userRepository= userRepository;
 		this.passwordEncoder= passwordEncoder;
 		this.mailContentBuilder= mailContentBuilder;
 		this.mailService= mailService;
 		this.verificationTokenRepository= verificationTokenRepository;
+		this.authenticationManager= authenticationManager;
+		this.jwtProvider= jwtProvider;
 	}
 	
 	@Override
@@ -122,6 +138,43 @@ public class AuthServiceImpl implements AuthService{
 		User user= userRepository.findByUsername(username).orElseThrow(()-> new MyRedditException("User not found with ID "+ username));
 		user.setEnabled(true);
 		userRepository.save(user);
+	}
+
+	@Override
+	public AuthenticationResponse login(LoginRequest loginRequest) {
+		System.out.println("-------> Niti: Inside AuthService--->login()");
+
+		Authentication authenticate= authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
+														loginRequest.getPassword()));
+		System.out.println("-------> Niti: Inside AuthService--->calling setAuthentication(authenticate)");
+		SecurityContextHolder.getContext().setAuthentication(authenticate);
+		
+		System.out.println("-------> Niti: Inside AuthService--->calling generateToken(authenticate)");		
+		String authenticationToken= jwtProvider.generateToken(authenticate);
+		
+		return new AuthenticationResponse(authenticationToken, loginRequest.getUsername());
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+    public User getCurrentUser() {
+        org.springframework.security.core.userdetails.User principal = 
+        		(org.springframework.security.core.userdetails.User) SecurityContextHolder
+        															.getContext()
+        															.getAuthentication()
+        															.getPrincipal();
+        
+        return userRepository.findByUsername(principal.getUsername())
+                .orElseThrow(
+                		() -> new UsernameNotFoundException("User name not found - " 
+                										+ principal.getUsername()));
+    }
+
+	@Override
+	public boolean isLoggedIn() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
 
