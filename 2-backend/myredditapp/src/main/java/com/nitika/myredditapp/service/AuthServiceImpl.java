@@ -37,7 +37,7 @@ public class AuthServiceImpl implements AuthService{
 	private PasswordEncoder passwordEncoder;
 	private VerificationTokenRepository verificationTokenRepository;
 	private MailContentBuilderServiceImpl mailContentBuilder;
-	private MailServiceImpl mailService;
+	private MailService mailService;
 	private AuthenticationManager authenticationManager;
 	private JwtProvider jwtProvider;
 	
@@ -45,7 +45,7 @@ public class AuthServiceImpl implements AuthService{
 	public AuthServiceImpl(	UserRepository userRepository, 
 							PasswordEncoder passwordEncoder,
 							MailContentBuilderServiceImpl mailContentBuilder, 
-							MailServiceImpl mailService,
+							MailService mailService,
 							VerificationTokenRepository verificationTokenRepository,
 							AuthenticationManager authenticationManager,
 							JwtProvider jwtProvider) {

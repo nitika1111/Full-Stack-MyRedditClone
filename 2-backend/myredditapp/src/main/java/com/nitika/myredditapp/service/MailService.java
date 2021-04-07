@@ -4,5 +4,5 @@ import com.nitika.myredditapp.entity.NotificationEmail;
 
 public interface MailService {
 
-	void sendMail(NotificationEmail notificationEmail);
+	public void sendMail(NotificationEmail notificationEmail);
 }

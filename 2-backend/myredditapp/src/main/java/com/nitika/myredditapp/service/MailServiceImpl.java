@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class MailServiceImpl {
+public class MailServiceImpl implements MailService{
 
 	private final JavaMailSender mailSender;
 	private final MailContentBuilderServiceImpl mailContentBuilder;
@@ -26,20 +26,20 @@ public class MailServiceImpl {
 	}
 	
 	@Async
-	void sendMail(NotificationEmail notificationEmail) {
+	public void sendMail(NotificationEmail notificationEmail) {
 		MimeMessagePreparator messagePreparator= 
 				mimeMessage -> {
 					MimeMessageHelper messageHelper= new MimeMessageHelper(mimeMessage);
 					messageHelper.setFrom("myredditapp@email.com");
 					messageHelper.setTo(notificationEmail.getRecipient());
 					messageHelper.setSubject(notificationEmail.getSubject());
-					messageHelper.setText(mailContentBuilder.build(notificationEmail.getBody()));
-					
+					//messageHelper.setText(mailContentBuilder.build(notificationEmail.getBody()));
+					messageHelper.setText(notificationEmail.getBody());
 				};
 				
 				try {
 					mailSender.send(messagePreparator);
-					log.info("Registration successful. Verification Email sent!");
+					log.info("Email sent!");
 				} catch (MailException e) {
 					throw new MyRedditException("Exception occored when sending email to "+
 												notificationEmail.getRecipient());
