@@ -31,8 +31,11 @@ public class Post {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-
-	@NotBlank(message = "Date cannot be blank.")
+	
+	@Column(name = "title")
+	@NotBlank(message = "Post Name cannot be blank.")
+	private String postName;
+	
 	@Column(name = "creation_date")
 	private Instant creationDate;
 	
@@ -40,10 +43,6 @@ public class Post {
 	@Lob
 	@Column(name = "description")
 	private String description;
-	
-	@Column(name = "title")
-	@NotBlank(message = "Title cannot be blank.")
-	private String title;
 	
 	@NotBlank(message = "URL cannot be blank.")
 	@Column(name = "url")
@@ -58,13 +57,7 @@ public class Post {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
-	private User user;
-
-	public Instant getCreatedDate() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
+	private User user;	
 
 }
 

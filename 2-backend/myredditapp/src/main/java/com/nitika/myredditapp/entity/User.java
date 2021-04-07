@@ -49,8 +49,10 @@ public class User {
 	@Column(name = "password")
 	private String password;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-	private Set<Post> posts= new HashSet<>();
+	/*
+	 * @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") private Set<Post>
+	 * posts= new HashSet<>();
+	 */
 	
 	
 	

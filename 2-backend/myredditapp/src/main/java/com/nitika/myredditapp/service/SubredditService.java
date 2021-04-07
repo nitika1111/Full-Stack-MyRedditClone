@@ -27,7 +27,7 @@ public class SubredditService {
 	private final SubredditMapper subredditMapper;
 	
 	@Transactional(readOnly=true)
-	public List<SubredditDto> getAll() {
+	public List<SubredditDto> getAllSubreddits() {
 		
 		return subredditRepository.findAll()
 								  .stream()
@@ -36,9 +36,16 @@ public class SubredditService {
 	}
 
 	@Transactional(readOnly=true)
-	public SubredditDto getSubreddit(Long id) {
+	public SubredditDto getSubredditById(Long id) {
 		Subreddit subreddit= subredditRepository.findById(id)
 					.orElseThrow(()->new SubredditNotFoundException("Subreddit not found for: "+id));
+		return subredditMapper.mapSubredditToDto(subreddit);
+	}
+	
+	@Transactional(readOnly=true)
+	public SubredditDto getSubredditByName(String subredditName) {
+		Subreddit subreddit= subredditRepository.findByName(subredditName)
+					.orElseThrow(()->new SubredditNotFoundException("Subreddit not found for: "+subredditName));
 		return subredditMapper.mapSubredditToDto(subreddit);
 	}
 
@@ -46,7 +53,9 @@ public class SubredditService {
 	public SubredditDto save(SubredditDto subredditDto) {
 		System.out.println("-------> Niti: Inside SubredditService: save()");
 
-		Subreddit subreddit= subredditRepository.save(subredditMapper.mapDtoToSubreddit(subredditDto, authService.getCurrentUser()));
+		Subreddit subreddit= subredditRepository
+								.save(subredditMapper.mapDtoToSubreddit(subredditDto, 
+																authService.getCurrentUser()));
 		subredditDto.setId(subreddit.getId());
         return subredditDto;
 	}

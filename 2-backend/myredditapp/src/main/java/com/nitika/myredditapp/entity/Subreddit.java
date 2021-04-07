@@ -58,7 +58,6 @@ public class Subreddit {
 	@JoinColumn(name = "user_id")
 	private User user;
 	
-
 }
 
 

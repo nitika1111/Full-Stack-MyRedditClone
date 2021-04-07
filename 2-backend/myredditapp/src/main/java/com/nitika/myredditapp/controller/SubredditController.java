@@ -24,12 +24,12 @@ public class SubredditController {
 	
 	@GetMapping
 	public List<SubredditDto> getAllSubreddits() {
-        return subredditService.getAll();
+        return subredditService.getAllSubreddits();
     }
 	
 	@GetMapping("/{id}")
 	public SubredditDto getSubreddit(@PathVariable Long id) {
-        return subredditService.getSubreddit(id);
+        return subredditService.getSubredditById(id);
     }
 	
 	@PostMapping()
