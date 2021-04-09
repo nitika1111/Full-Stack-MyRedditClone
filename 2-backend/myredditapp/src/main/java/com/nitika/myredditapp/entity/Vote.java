@@ -9,10 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name = "vote")
 public class Vote {
 	
@@ -28,24 +28,16 @@ public class Vote {
 	@Column(name = "id")
 	private Long id;
 
-	@NotBlank(message = "Vote Type cannot be blank.")
 	@Column(name = "type")
-	private Integer type;	
+	private VoteType type;	
 	
-	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
 	
-	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "post_id")
 	private Post post;
-
-	public String getVoteType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 }
 

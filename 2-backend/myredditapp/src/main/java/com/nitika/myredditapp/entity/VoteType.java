@@ -5,22 +5,22 @@ import java.util.Arrays;
 import com.nitika.myredditapp.exception.MyRedditException;
 
 public enum VoteType {
-    UPVOTE(1), DOWNVOTE(-1),
-    ;
+     DOWNVOTE(-1), UPVOTE(1);
 
-    private int direction;
+    private final int direction;
 
     VoteType(int direction) {
+    	this.direction= direction;
     }
-
-    public static VoteType lookup(Integer direction) {
-        return Arrays.stream(VoteType.values())
-                .filter(value -> value.getDirection().equals(direction))
-                .findAny()
-                .orElseThrow(() -> new MyRedditException("Vote not found"));
-    }
-
+    
     public Integer getDirection() {
         return direction;
     }
+    
+	/*
+	 * public static VoteType lookup(Integer direction) { return
+	 * Arrays.stream(VoteType.values()) .filter(value ->
+	 * value.getDirection().equals(direction)) .findAny() .orElseThrow(() -> new
+	 * MyRedditException("Vote not found")); }
+	 */
 }

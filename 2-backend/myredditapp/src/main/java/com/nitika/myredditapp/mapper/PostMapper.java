@@ -71,7 +71,7 @@ public abstract class PostMapper {
             Optional<Vote> voteForPostByUser =
                     voteRepository.findTopByPostAndUserOrderByIdDesc(post,
                             authService.getCurrentUser());
-            return voteForPostByUser.filter(vote -> vote.getVoteType().equals(voteType))
+            return voteForPostByUser.filter(vote -> vote.getType().equals(voteType))
                     .isPresent();
         }
         return false;
