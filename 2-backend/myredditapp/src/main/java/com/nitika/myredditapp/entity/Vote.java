@@ -29,7 +29,8 @@ public class Vote {
 	private Long id;
 
 	@Column(name = "type")
-	private VoteType type;	
+	//private VoteType type;
+	private int type;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")

@@ -33,9 +33,14 @@ public class VoteService {
         Optional<Vote> voteByPostAndUser = 
         		voteRepository.findTopByPostAndUserOrderByIdDesc(post, 
         														 authService.getCurrentUser());
+		/*
+		 * if (voteByPostAndUser.isPresent() && voteByPostAndUser.get().getType()
+		 * .equals(voteDto.getVoteType())) { throw new
+		 * MyRedditException("You have already " + voteDto.getVoteType() +
+		 * "'d for this post"); }
+		 */
         if (voteByPostAndUser.isPresent() &&
-                voteByPostAndUser.get().getType()
-                        .equals(voteDto.getVoteType())) {
+                voteByPostAndUser.get().getType()== voteDto.getVoteType().getDirection()) {
             throw new MyRedditException("You have already "
                     + voteDto.getVoteType() + "'d for this post");
         }
@@ -49,14 +54,15 @@ public class VoteService {
     }
 
     private Vote mapDtoToVote(VoteDto voteDto, Post post) {
-    	//VoteType theVote= voteDto.getVoteType().valueOf(VoteType, name);
-    	System.out.println("-----> Niti: "+ VoteType.UPVOTE.ordinal());//theVote.valueOf(theVote,));
+    	VoteType theVoteType= voteDto.getVoteType();//.getDirection();//getVoteType();//.valueOf(VoteType, name);
+    	int voteTypeInt= theVoteType.getDirection();
+    	System.out.println("-----> Niti: "+ voteTypeInt);
         return Vote.builder()
-                .type(voteDto.getVoteType())
+                //.type(voteDto.getVoteType())
+        		.type(voteTypeInt)
                 .post(post)
                 .user(authService.getCurrentUser())
                 .build();
     }
 	
-
 }

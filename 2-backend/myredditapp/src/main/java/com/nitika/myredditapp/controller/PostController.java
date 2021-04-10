@@ -30,6 +30,15 @@ public class PostController {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
+	// get ALL Posts
+	@GetMapping
+	public ResponseEntity<List<PostResponse>> getAllPosts() {
+		System.out.println("-------> Niti: Inside PostController-> getAllPosts");
+
+		return status(HttpStatus.OK).body(postService.getAllPosts());
+	}
+
+	// get Posts by POST ID
 	@GetMapping("/{id}")
 	public ResponseEntity<PostResponse> getPost(@PathVariable Long id ) {
 		System.out.println("-------> Niti: Inside PostController -> getPost");
@@ -37,13 +46,7 @@ public class PostController {
 		return status(HttpStatus.OK).body(postService.getPostById(id));
 	}
 	
-	@GetMapping
-	public ResponseEntity<List<PostResponse>> getAllPosts() {
-		System.out.println("-------> Niti: Inside PostController-> getAllPosts");
-
-		return status(HttpStatus.OK).body(postService.getAllPosts());
-	}
-	
+	// get Posts by SUBREDDIT ID
 	@GetMapping("/by-subreddit/{id}")
 	public ResponseEntity<List<PostResponse>> getPostsBySubreddit(@PathVariable Long id) {
 		System.out.println("-------> Niti: Inside PostController -> getPostsBySubreddit");
@@ -51,6 +54,7 @@ public class PostController {
 		return status(HttpStatus.OK).body(postService.getPostsBySubreddit(id));
 	}
 	
+	// get Posts by USER ID
 	@GetMapping("/by-user/{username}")
 	public ResponseEntity<List<PostResponse>> getAllPosts(@PathVariable String username) {
 		System.out.println("-------> Niti: Inside PostController -> getAllPosts");
