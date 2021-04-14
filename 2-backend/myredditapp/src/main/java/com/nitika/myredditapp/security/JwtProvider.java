@@ -11,7 +11,11 @@ import java.security.UnrecoverableKeyException;
 
 import javax.annotation.PostConstruct;
 import java.security.cert.CertificateException;
+import java.sql.Date;
+import java.time.Instant;
+import static java.util.Date.from;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
@@ -28,6 +32,9 @@ import static io.jsonwebtoken.Jwts.parser;
 public class JwtProvider {
 	
 	private KeyStore keyStore;
+	
+	@Value("${jwt.expiration.time}")
+    private Long jwtExpirationInMillis;
 	
 	@PostConstruct
 	public void init() {
@@ -49,9 +56,20 @@ public class JwtProvider {
 		System.out.println("-------> Niti: Inside JwtProvider--->generateToken()-->principal= "+principal.toString());
 
 		return Jwts.builder().setSubject(principal.getUsername())
+							 .setIssuedAt(from(Instant.now()))
 							 .signWith(getPrivateKey())
+							 .setExpiration(Date.from(Instant.now().plusMillis(jwtExpirationInMillis)))
 							 .compact();
 	}
+	
+	public String generateTokenWithUserName(String username) {
+        return Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(from(Instant.now()))
+                .signWith(getPrivateKey())
+                .setExpiration(Date.from(Instant.now().plusMillis(jwtExpirationInMillis)))
+                .compact();
+    }
 
 	private PrivateKey getPrivateKey() {
 
@@ -76,7 +94,8 @@ public class JwtProvider {
         try {
             return keyStore.getCertificate("myreddit").getPublicKey();
         } catch (KeyStoreException e) {
-            throw new MyRedditException("Exception occured while retrieving public key from keystore");
+            throw new MyRedditException("Exception occured while retrieving "
+            		+ "public key from keystore");
         }
     }
 
@@ -89,4 +108,23 @@ public class JwtProvider {
         return claims.getSubject();
     }
 	
+    public Long getJwtExpirationInMillis() {
+        return jwtExpirationInMillis;
+    }
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

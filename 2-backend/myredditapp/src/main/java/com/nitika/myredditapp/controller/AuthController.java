@@ -1,5 +1,7 @@
 package com.nitika.myredditapp.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,17 +13,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nitika.myredditapp.dto.AuthenticationResponse;
 import com.nitika.myredditapp.dto.LoginRequest;
+import com.nitika.myredditapp.dto.RefreshTokenRequest;
 import com.nitika.myredditapp.dto.RegisterRequest;
 import com.nitika.myredditapp.service.AuthService;
+import com.nitika.myredditapp.service.RefreshTokenService;
+
+import static org.springframework.http.HttpStatus.OK;
+
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController  {
 
 	private AuthService authService;
+	private RefreshTokenService refreshTokenService;
 	
-	public AuthController(AuthService authService) {
+	public AuthController(AuthService authService, RefreshTokenService refreshTokenService) {
 		this.authService= authService;
+		this.refreshTokenService= refreshTokenService;
 		System.out.println("-------> Niti: Inside AuthController constructor");
 	}
 	
@@ -50,6 +59,19 @@ public class AuthController  {
 		return authService.login(loginRequest);
 		
 	}
+	
+	@PostMapping("/refresh/token")
+    public AuthenticationResponse refreshTokens(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
+        return authService.refreshToken(refreshTokenRequest);
+    }
+	
+	@PostMapping("/logout")
+    public ResponseEntity<String> logout(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
+		System.out.println("-------> Niti: Inside AuthController->logout()");
+
+		refreshTokenService.deleteRefreshToken(refreshTokenRequest.getRefreshToken());
+        return ResponseEntity.status(OK).body("Refresh Token Deleted Successfully!!");
+    }
 }
 
 

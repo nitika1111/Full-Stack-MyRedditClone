@@ -3,6 +3,7 @@ package com.nitika.myredditapp.service;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.nitika.myredditapp.dto.AuthenticationResponse;
 import com.nitika.myredditapp.dto.LoginRequest;
+import com.nitika.myredditapp.dto.RefreshTokenRequest;
 import com.nitika.myredditapp.dto.RegisterRequest;
 import com.nitika.myredditapp.entity.NotificationEmail;
 import com.nitika.myredditapp.entity.User;
@@ -24,6 +26,7 @@ import com.nitika.myredditapp.security.JwtProvider;
 
 import static java.time.Instant.now;
 
+import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -40,6 +43,7 @@ public class AuthServiceImpl implements AuthService{
 	private MailService mailService;
 	private AuthenticationManager authenticationManager;
 	private JwtProvider jwtProvider;
+    private final RefreshTokenService refreshTokenService;
 	
 	@Autowired
 	public AuthServiceImpl(	UserRepository userRepository, 
@@ -48,7 +52,8 @@ public class AuthServiceImpl implements AuthService{
 							MailService mailService,
 							VerificationTokenRepository verificationTokenRepository,
 							AuthenticationManager authenticationManager,
-							JwtProvider jwtProvider) {
+							JwtProvider jwtProvider,
+							RefreshTokenService refreshTokenService) {
 		
 		this.userRepository= userRepository;
 		this.passwordEncoder= passwordEncoder;
@@ -57,6 +62,7 @@ public class AuthServiceImpl implements AuthService{
 		this.verificationTokenRepository= verificationTokenRepository;
 		this.authenticationManager= authenticationManager;
 		this.jwtProvider= jwtProvider;
+		this.refreshTokenService= refreshTokenService;
 	}
 	
 	@Override
@@ -150,10 +156,16 @@ public class AuthServiceImpl implements AuthService{
 		System.out.println("-------> Niti: Inside AuthService--->calling setAuthentication(authenticate)");
 		SecurityContextHolder.getContext().setAuthentication(authenticate);
 		
-		System.out.println("-------> Niti: Inside AuthService--->calling generateToken(authenticate)");		
+		//System.out.println("-------> Niti: Inside AuthService--->calling generateToken(authenticate)");		
 		String authenticationToken= jwtProvider.generateToken(authenticate);
 		
-		return new AuthenticationResponse(authenticationToken, loginRequest.getUsername());
+		//return new AuthenticationResponse(authenticationToken, loginRequest.getUsername());
+		return AuthenticationResponse.builder()
+                .authenticationToken(authenticationToken)
+                .refreshToken(refreshTokenService.generateRefreshToken().getToken())
+                .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
+                .username(loginRequest.getUsername())
+                .build();
 	}
 
 	@Override
@@ -173,9 +185,21 @@ public class AuthServiceImpl implements AuthService{
 
 	@Override
 	public boolean isLoggedIn() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated();
+    }
+	
+	@Override
+	public AuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
+        refreshTokenService.validateRefreshToken(refreshTokenRequest.getRefreshToken());
+        String token = jwtProvider.generateTokenWithUserName(refreshTokenRequest.getUsername());
+        return AuthenticationResponse.builder()
+                .authenticationToken(token)
+                .refreshToken(refreshTokenRequest.getRefreshToken())
+                .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
+                .username(refreshTokenRequest.getUsername())
+                .build();
+    }
 }
 
 
