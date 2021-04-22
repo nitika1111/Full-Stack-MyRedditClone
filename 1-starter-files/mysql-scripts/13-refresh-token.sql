@@ -9,12 +9,13 @@ SET foreign_key_checks = 0;
 DROP TABLE IF EXISTS `refresh_token`;
 
 CREATE TABLE `refresh_token`(
-	`id` BIGINT NOT NULL,
+	`id` BIGINT AUTO_INCREMENT,
     `creation_date` DATETIME,
     `token` VARCHAR(255),
     PRIMARY KEY (`id`)#,
     #CONSTRAINT `fk_token_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
     #CONSTRAINT `fk_subreddit_posts_post_id` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`)
-)ENGINE= InnoDB;
+)ENGINE= InnoDB
+ AUTO_INCREMENT = 1;
 
 SET foreign_key_checks = 1;
