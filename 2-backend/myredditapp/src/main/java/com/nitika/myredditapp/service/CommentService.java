@@ -48,8 +48,9 @@ public class CommentService {
 	public List<CommentDto> getAllCommentsByPostId(Long postId) {
 		Post post= postRepository.findById(postId)
 				 .orElseThrow(()-> new PostNotFoundException("Post not found for Post ID: "+postId.toString()));
-		
-		return commentRepository.findByPost(post)
+		System.out.println("-----> Niti: Inside getAllCommentsByPostId(Long postId)");
+		System.out.println("-----> Niti: Post fetched: "+ post.toString());
+		return commentRepository.findAllByPost(post)
 								.stream()
 								.map(commentMapper::mapCommentToDto)
 								.collect(toList());

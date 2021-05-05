@@ -33,13 +33,7 @@ public class VoteService {
         Optional<Vote> voteByPostAndUser = 
         		voteRepository.findTopByPostAndUserOrderByIdDesc(post, 
         														 authService.getCurrentUser());
-		/*
-		 * if (voteByPostAndUser.isPresent() && voteByPostAndUser.get().getType()
-		 * .equals(voteDto.getVoteType())) { throw new
-		 * MyRedditException("You have already " + voteDto.getVoteType() +
-		 * "'d for this post"); }
-		 */
-        if (voteByPostAndUser.isPresent() &&
+		if (voteByPostAndUser.isPresent() &&
                 voteByPostAndUser.get().getType()== voteDto.getVoteType().getDirection()) {
             throw new MyRedditException("You have already "
                     + voteDto.getVoteType() + "'d for this post");
